@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 const UserSchema = new Schema({
     name: {
@@ -10,7 +11,6 @@ const UserSchema = new Schema({
         required: true,
         unique: true
     },
-
     password: {
         type: String,
         required: true
@@ -20,4 +20,5 @@ const UserSchema = new Schema({
         default: Date.now
     },
 });
+
 module.exports = mongoose.model('user', UserSchema);
