@@ -2,130 +2,45 @@ import noteContext from "./noteContext";
 import { useState } from "react";
 
 const NoteState = (props) => {
-    const notesInitial = [
-        {
-            "_id": "6304d5f0b209fd2ee46b3d6c",
-            "user": "6304c20a97a95ba7ea89b710",
-            "title": "New Note Updated23",
-            "description": "------------------------------------------",
-            "tag": "Public",
-            "date": "2022-08-23T13:28:16.390Z",
-            "__v": 0
-        },
-        {
-            "_id": "6305dde6c06eb3699a22c10d",
-            "user": "6304c20a97a95ba7ea89b710",
-            "title": "New Note",
-            "description": "This is the New Note description",
-            "tag": "Public",
-            "date": "2022-08-24T08:14:30.945Z",
-            "__v": 0
-        },
-        {
-            "_id": "6305dde9c06eb3699a22c10f",
-            "user": "6304c20a97a95ba7ea89b710",
-            "title": "New Note",
-            "description": "This is the New Note description",
-            "tag": "Public",
-            "date": "2022-08-24T08:14:33.627Z",
-            "__v": 0
-        },
-        {
-            "_id": "6305dde9c06eb3699a22c111",
-            "user": "6304c20a97a95ba7ea89b710",
-            "title": "New Note",
-            "description": "This is the New Note description",
-            "tag": "Public",
-            "date": "2022-08-24T08:14:33.840Z",
-            "__v": 0
-        },
-        {
-            "_id": "6305ddeac06eb3699a22c113",
-            "user": "6304c20a97a95ba7ea89b710",
-            "title": "New Note",
-            "description": "This is the New Note description",
-            "tag": "Public",
-            "date": "2022-08-24T08:14:34.077Z",
-            "__v": 0
-        },
-        {
-            "_id": "6305ddeac06eb3699a22c115",
-            "user": "6304c20a97a95ba7ea89b710",
-            "title": "New Note",
-            "description": "This is the New Note description",
-            "tag": "Public",
-            "date": "2022-08-24T08:14:34.313Z",
-            "__v": 0
-        },
-        {
-            "_id": "6305ddeac06eb3699a22c117",
-            "user": "6304c20a97a95ba7ea89b710",
-            "title": "New Note",
-            "description": "This is the New Note description",
-            "tag": "Public",
-            "date": "2022-08-24T08:14:34.701Z",
-            "__v": 0
-        },
-        {
-            "_id": "6305ddeac06eb3699a22c119",
-            "user": "6304c20a97a95ba7ea89b710",
-            "title": "New Note",
-            "description": "This is the New Note description",
-            "tag": "Public",
-            "date": "2022-08-24T08:14:34.965Z",
-            "__v": 0
-        },
-        {
-            "_id": "6305ddebc06eb3699a22c11b",
-            "user": "6304c20a97a95ba7ea89b710",
-            "title": "New Note",
-            "description": "This is the New Note description",
-            "tag": "Public",
-            "date": "2022-08-24T08:14:35.287Z",
-            "__v": 0
-        },
-        {
-            "_id": "6305ddebc06eb3699a22c11d",
-            "user": "6304c20a97a95ba7ea89b710",
-            "title": "New Note",
-            "description": "This is the New Note description",
-            "tag": "Public",
-            "date": "2022-08-24T08:14:35.564Z",
-            "__v": 0
-        },
-        {
-            "_id": "6305ddebc06eb3699a22c11f",
-            "user": "6304c20a97a95ba7ea89b710",
-            "title": "New Note",
-            "description": "This is the New Note description",
-            "tag": "Public",
-            "date": "2022-08-24T08:14:35.768Z",
-            "__v": 0
-        },
-        {
-            "_id": "6305ddebc06eb3699a22c121",
-            "user": "6304c20a97a95ba7ea89b710",
-            "title": "New Note",
-            "description": "This is the New Note description",
-            "tag": "Public",
-            "date": "2022-08-24T08:14:35.922Z",
-            "__v": 0
-        },
-        {
-            "_id": "6305ddecc06eb3699a22c123",
-            "user": "6304c20a97a95ba7ea89b710",
-            "title": "New Note",
-            "description": "This is the New Note description",
-            "tag": "Public",
-            "date": "2022-08-24T08:14:36.097Z",
-            "__v": 0
-        }
-    ]
+    const host = "http://localhost:5000";
+    const notesInitial = []
     const [notes, setNotes] = useState(notesInitial);
 
-    // Add a Note
-    const addNote = (title, description, tag) => {
+    // Get all Notes
+    const getNotes = async () => {
         //API CALL
+        const response = await fetch(`${host}/api/notes/fetchallnotes`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjMwNGMyMGE5N2E5NWJhN2VhODliNzEwIn0sImlhdCI6MTY2MTI1NjU2MH0.CVZM79imrxDHZgazkz4Y-aY_ufnMRS3KapNuS4AMM0A',
+            }
+        });
+        const json = await response.json()
+        console.log(json)
+        setNotes(json)
+
+    }
+
+
+
+    // Add a Note
+    const addNote = async (title, description, tag) => {
+        //API CALL
+        const response = await fetch(`${host}/api/notes/addnote`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjMwNGMyMGE5N2E5NWJhN2VhODliNzEwIn0sImlhdCI6MTY2MTI1NjU2MH0.CVZM79imrxDHZgazkz4Y-aY_ufnMRS3KapNuS4AMM0A',
+            },
+            body: JSON.stringify({ title, description, tag })
+        });
+
+
+
+
+
+
         console.log("Adding a new note")
         const note = {
             "_id": "6304d5f0b209fd2ee46b3d6c",
@@ -141,8 +56,20 @@ const NoteState = (props) => {
     }
 
     // Delete a Note
-    const deleteNote = (id) => {
+    const deleteNote = async (id) => {
         // API CALL
+        const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjMwNGMyMGE5N2E5NWJhN2VhODliNzEwIn0sImlhdCI6MTY2MTI1NjU2MH0.CVZM79imrxDHZgazkz4Y-aY_ufnMRS3KapNuS4AMM0A',
+            },
+            body: JSON.stringify({})
+        });
+        const json = response.json();
+
+
+
         console.log("Deleting the note with note ID: " + id);
         const newNotes = notes.filter((note) => { return note._id !== id });
         setNotes(newNotes);
@@ -150,12 +77,32 @@ const NoteState = (props) => {
     }
 
     // Edit a Note
-    const editNote = (id, title, description, tag) => {
+    const editNote = async (id, title, description, tag) => {
+        // API Call
+        const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjMwNGMyMGE5N2E5NWJhN2VhODliNzEwIn0sImlhdCI6MTY2MTI1NjU2MH0.CVZM79imrxDHZgazkz4Y-aY_ufnMRS3KapNuS4AMM0A',
+            },
+            body: JSON.stringify({ title, description, tag })
+        });
+        const json = response.json();
 
+
+        //Logic to edit in front end
+        for (let index = 0; index < notes.length; index++) {
+            const element = notes[index];
+            if (element._id === id) {
+                element.title = title;
+                element.tag = tag;
+                element.description = description;
+            }
+        }
     }
 
     return (
-        <noteContext.Provider value={{ notes, addNote, deleteNote, editNote }}>
+        <noteContext.Provider value={{ notes, addNote, deleteNote, editNote, getNotes }}>
             {props.children}
         </noteContext.Provider>)
 }
