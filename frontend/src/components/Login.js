@@ -24,8 +24,6 @@ const Login = () => {
     }
     const onChange = (e) => {
         setCredential({ ...credentials, [e.target.name]: e.target.value })
-
-
     }
     return (
         <div>
